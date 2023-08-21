@@ -33,6 +33,7 @@ class Car(Base):
 class Interest(Base):
     __tablename__ = 'use_car_interest'
 
+    interest_id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.user_id'))
     car_id = Column(Integer, ForeignKey('cars.car_id'))
     interest_level = Column(String, nullable=False)
