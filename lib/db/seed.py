@@ -7,8 +7,8 @@ def seed_data():
     user1 = User(username="daniel")
     user2 = User(username="maria")
 
-    car1 = Car(make="Toyota", model="Camry", year=2021, price=24000, status="Available")
-    car2 = Car(make="Honda", model="Civic", year=2020, price=21000, status="Sold")
+    car1 = Car(make="Toyota", model="Camry", color="Black", year=2021, price=24000, status="Available")
+    car2 = Car(make="Honda", model="Civic", color="Red", year=2020, price=21000, status="Sold")
 
     session.add(user1)
     session.add(user2)

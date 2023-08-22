@@ -22,7 +22,7 @@ class Car(Base):
     make = Column(String, nullable=False)
     model = Column(String, nullable=False)
     year = Column(Integer, nullable=False)
-    color = Column(String, nullable=True)
+    color = Column(String, nullable=False)
     price = Column(Integer, nullable=False)
     status = Column(String, nullable=False)
     
