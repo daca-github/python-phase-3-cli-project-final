@@ -1,18 +1,18 @@
-#!/usr/bin/env python3
+import click 
+from db.models import User, Car
+from db.database import Session
 
+@click.group()
 def main():
-    try:
-        # Prompt user for a number
-        number = float(input("Enter a number: "))
+    """CarBud: Your Virtual Dealership"""
+    pass 
 
-        # Calculate the square of the number
-        result = number * number
+@click.command()
+def display_main_menu():
+    click.echo('1. Used Cars')
+    click.echo('2. New Cars')
 
-        # Print the result
-        print(f"The square of {number} is: {result}")
-
-    except ValueError:
-        print("Please enter a valid number.")
-
-if __name__ == "__main__":
-    main()
+@click.command()
+def search_by_criteria():
+    model = click.prompt('Enter the model')
+    make = click.prompt('Enter the make')
