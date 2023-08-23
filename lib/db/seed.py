@@ -1,5 +1,5 @@
-from database import SessionLocal as Session
-from models import User, Car
+from .database import SessionLocal as Session
+from .models import User, Car
 
 
 def seed_data():
