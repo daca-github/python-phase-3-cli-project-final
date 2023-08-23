@@ -1,10 +1,10 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
+import os 
 
-DATABASE_URL = 'sqlite:////home/daniel/Development/code/phase-3/phase-3-command-line-project/python-p3-cli-project-template/lib/db/carbud.db'  
-
-engine = create_engine(DATABASE_URL)
+DATABASE_URL = os.path.join(os.path.dirname(__file__), 'carbud.db')
+engine = create_engine(f"sqlite:///{DATABASE_URL}")
 SessionLocal = sessionmaker(bind=engine)
 
 Base = declarative_base()
