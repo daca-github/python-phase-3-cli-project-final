@@ -9,7 +9,7 @@ class User(Base):
     __tablename__ = 'users'
     
     user_id = Column(Integer, primary_key=True)
-    username = Column(String, nullable=True)
+    username = Column(String, nullable=True, unique=True)
     
     cars_interested = relationship("Interest", back_populates="user")
     price_calculations = relationship("Price", back_populates="user")
@@ -26,6 +26,7 @@ class Car(Base):
     color = Column(String, nullable=False)
     price = Column(Integer, nullable=False)
     status = Column(String, nullable=False)
+    type = Column(String, nullable=False )
     
     users_interested = relationship("Interest", back_populates="car")
     price_calculations = relationship("Price", back_populates="car")
