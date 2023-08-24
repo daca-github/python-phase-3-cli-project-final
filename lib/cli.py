@@ -13,13 +13,25 @@ def register_user(session, username):
     session.commit()
     click.echo(f'User {username} has been registered!')
 
+def calculate_estimate(car_price, downpayment):
+    interest_rate = 0.05  
+    loan_amount = car_price - downpayment
+    monthly_interest_rate = interest_rate / 12
+    num_months = 48  
+
+    monthly_payment = (loan_amount * monthly_interest_rate) / (1 - (1 + monthly_interest_rate) ** -num_months)
+    total_payment = monthly_payment * num_months
+
+    return monthly_payment, total_payment
+
 def display_menu(session, user):
     while True:
         click.echo(f'Welcome, {user.username}!')
         click.echo('1. Display Available Cars')
         click.echo('2. Search by criteria')
         click.echo('3. Set Appointment')
-        click.echo('4. Exit')
+        click.echo('4. Get Estimate')
+        click.echo('5. Exit')
 
         choice = click.prompt('Please enter your choice', type=int)
 
@@ -30,6 +42,8 @@ def display_menu(session, user):
         elif choice == 3:
             set_appointment(session, user)
         elif choice == 4:
+            get_estimate()
+        elif choice == 5:
             click.echo('Goodbye!')
             break
         else:
@@ -76,6 +90,14 @@ def set_appointment(session, user):
     session.commit()
 
     click.echo('Appointment set successfully!')
+
+def get_estimate():
+    car_price = click.prompt('Enter the car price', type=float)
+    downpayment = click.prompt('Enter the downpayment amount', type=float)
+
+    monthly_payment, total_payment = calculate_estimate(car_price, downpayment)
+    click.echo(f'Estimated Monthly Payment: ${monthly_payment:.2f}')
+    click.echo(f'Total Payment over 48 months: ${total_payment:.2f}')
 
 @click.group()
 def main():
