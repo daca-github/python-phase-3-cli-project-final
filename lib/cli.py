@@ -8,39 +8,11 @@ def get_user(session):
     user = session.query(User).filter_by(username=username).first()
     return user
 
-@click.group()
-def main():
-    """CarBud: Your Virtual Dealership"""
-    pass 
-
-@main.command()
-def menu():
-    session = Session()
-    user = get_user(session)
-    session.close()
-
-    if user:
-        click.echo(f'Welcome, {user.username}!')
-    else:
-        click.echo('User not found. Please register.')
-
+def display_menu():
     click.echo('1. Display Available Cars')
     click.echo('2. Search by criteria')
     click.echo('3. Set Appointment')
     click.echo('4. Exit')
-
-    choice = click.prompt('Please enter your choice', type=int)
-
-    if choice == 1:
-        display_available_cars()
-    elif choice == 2:
-        search_by_criteria()
-    elif choice == 3:
-        set_appointment(user)
-    elif choice == 4:
-        exit()
-    else:
-        click.echo('Invalid choice. Please try again.')
 
 def display_available_cars():
     session = Session()
@@ -74,7 +46,7 @@ def set_appointment(user):
     make = click.prompt('Enter the car make')
     model = click.prompt('Enter the car model')
     date_time = click.prompt('Enter the appointment date and time (YYYY-MM-DD HH:MM)')
-    appointment_type = click.prompt('Enter the appointment type')
+    appointment_type = click.prompt('Enter the appointment type (e.g., Test Drive)')
 
     car = session.query(Car).filter_by(make=make, model=model).first()
 
@@ -90,6 +62,37 @@ def set_appointment(user):
 
     click.echo('Appointment set successfully!')
 
+@click.group()
+def main():
+    """CarBud: Your Virtual Dealership"""
+    pass
+
+@main.command()
+def menu():
+    session = Session()
+    user = get_user(session)
+    session.close()
+
+    if user:
+        click.echo(f'Welcome, {user.username}!')
+    else:
+        click.echo('User not found. Please register.')
+
+    while True:
+        display_menu()
+        choice = click.prompt('Please enter your choice', type=int)
+
+        if choice == 1:
+            display_available_cars()
+        elif choice == 2:
+            search_by_criteria()
+        elif choice == 3:
+            set_appointment(user)
+        elif choice == 4:
+            click.echo('Goodbye!')
+            break
+        else:
+            click.echo('Invalid choice. Please try again.')
 
 if __name__ == '__main__':
     menu()
