@@ -1,6 +1,7 @@
 import click
-from db.models import User, Car
+from db.models import User, Car, Appointment
 from db.database import SessionLocal as Session
+from datetime import datetime
 
 def get_user(session):
     username = click.prompt('Please enter your username')
@@ -25,7 +26,8 @@ def menu():
 
     click.echo('1. Display Available Cars')
     click.echo('2. Search by criteria')
-    click.echo('3. Exit')
+    click.echo('3. Set Appointment')
+    click.echo('4. Exit')
 
     choice = click.prompt('Please enter your choice', type=int)
 
@@ -34,6 +36,8 @@ def menu():
     elif choice == 2:
         search_by_criteria()
     elif choice == 3:
+        set_appointment(user)
+    elif choice == 4:
         exit()
     else:
         click.echo('Invalid choice. Please try again.')
@@ -64,6 +68,28 @@ def search_by_criteria():
             click.echo(f'{car.make} {car.model}, Year: {car.year}, Price: {car.price}')
     else:
         click.echo('No cars matching the criteria.')
+
+def set_appointment(user):
+    session = Session()
+    make = click.prompt('Enter the car make')
+    model = click.prompt('Enter the car model')
+    date_time = click.prompt('Enter the appointment date and time (YYYY-MM-DD HH:MM)')
+    appointment_type = click.prompt('Enter the appointment type')
+
+    car = session.query(Car).filter_by(make=make, model=model).first()
+
+    if car is None:
+        click.echo('Car not found.')
+        session.close()
+        return
+
+    appointment = Appointment(user=user, car=car, date_time=datetime.strptime(date_time, '%Y-%m-%d %H:%M'), type_appointment=appointment_type, status='Scheduled')
+    session.add(appointment)
+    session.commit()
+    session.close()
+
+    click.echo('Appointment set successfully!')
+
 
 if __name__ == '__main__':
     menu()
