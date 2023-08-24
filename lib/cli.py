@@ -26,14 +26,14 @@ def calculate_estimate(car_price, downpayment):
 
 def display_menu(session, user):
     while True:
-        click.echo(f'Welcome, {user.username}!')
-        click.echo('1. Display Available Cars')
-        click.echo('2. Search by criteria')
-        click.echo('3. Set Appointment')
-        click.echo('4. Get Estimate')
-        click.echo('5. Exit')
+        click.echo(click.style(f'Welcome, {user.username}!', fg='cyan'))
+        click.echo(click.style('1. Display Available Cars', fg='green'))
+        click.echo(click.style('2. Search by criteria', fg='green'))
+        click.echo(click.style('3. Set Appointment', fg='green'))
+        click.echo(click.style('4. Get Estimate', fg='green'))
+        click.echo(click.style('5. Exit', fg= 'red'))
 
-        choice = click.prompt('Please enter your choice', type=int)
+        choice = click.prompt(click.style('Please enter your choice', fg='cyan'), type=int)
 
         if choice == 1:
             display_available_cars(session)
@@ -44,10 +44,10 @@ def display_menu(session, user):
         elif choice == 4:
             get_estimate()
         elif choice == 5:
-            click.echo('Goodbye!')
+            click.echo(click.style('Goodbye!', fg='red'))
             break
         else:
-            click.echo('Invalid choice. Please try again.')
+            click.echo(click.style('Invalid choice. Please try again.', fg='blue'))
 
 def display_available_cars(session):
     available_cars = session.query(Car).filter_by(status='Available').all()
