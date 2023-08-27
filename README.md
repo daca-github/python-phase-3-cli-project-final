@@ -13,12 +13,14 @@ CarBud is a CLI application that assists you in managing your car dealership. It
 - Search cars based on criteria like make and model
 - Schedule appointments
 - Loan estimate calculations
+- Add cars to inventory
 
 ## Technologies Used
 
 - Python 3.8
 - SQLAlchemy 
 - SQLite
+- Alembic
 
 ## Getting Started
 
@@ -49,12 +51,17 @@ CarBud is a CLI application that assists you in managing your car dealership. It
     ```
 ### Usage
 
-1. After following the installation, run the following command
+1. After following the installation, make your way to the lib folder
+    ```sh
+    $ cd lib
+    ```
+
+2. Run the following command to run the CLI
     ```sh
     $ python cli.py
     ```
 
-2. Follow the instructions in the CLI
+2. Click on any of the options and enjoy!
 
 ### Contributors
 
