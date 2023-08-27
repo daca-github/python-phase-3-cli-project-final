@@ -1,5 +1,7 @@
 # CarBud: Your Virtual Dealership CLI
 
+### [Youtube](https://youtu.be/iTiDh8AucXQ)
+
 ## Overview
 
 CarBud is a CLI application that assists you in managing your car dealership. It provides functionalities like displaying available cars, searching for cars based on certain criteria, setting up appointments, and getting loan estimates.
