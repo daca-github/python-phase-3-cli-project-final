@@ -25,27 +25,27 @@ def calculate_estimate(car_price, downpayment):
     return monthly_payment, total_payment
 
 def display_menu(session, user):
+    menu_functions = {
+        1: lambda: display_available_cars(session),
+        2: lambda: search_by_criteria(session),
+        3: lambda: set_appointment(session, user),
+        4: get_estimate,
+        5: 'exit'
+    }
     while True:
         click.echo(click.style(f'Welcome, {user.username}!', fg='cyan'))
         click.echo(click.style('1. Display Available Cars', fg='green'))
-        click.echo(click.style('2. Search by criteria', fg='green'))
+        click.echo(click.style('2. Search By Criteria', fg='green'))
         click.echo(click.style('3. Set Appointment', fg='green'))
         click.echo(click.style('4. Get Estimate', fg='green'))
-        click.echo(click.style('5. Exit', fg= 'red'))
-
+        click.echo(click.style('5. Exit', fg='red'))
         choice = click.prompt(click.style('Please enter your choice', fg='cyan'), type=int)
-
-        if choice == 1:
-            display_available_cars(session)
-        elif choice == 2:
-            search_by_criteria(session)
-        elif choice == 3:
-            set_appointment(session, user)
-        elif choice == 4:
-            get_estimate()
-        elif choice == 5:
+        selected_function = menu_functions.get(choice, None)
+        if selected_function == 'exit':
             click.echo(click.style('Goodbye!', fg='red'))
             break
+        elif selected_function:
+            selected_function()
         else:
             click.echo(click.style('Invalid choice. Please try again.', fg='blue'))
 
@@ -74,11 +74,13 @@ def search_by_criteria(session):
         click.echo('No cars matching the criteria.')
 
 def set_appointment(session, user):
-    make = click.prompt('Enter the car make')
-    model = click.prompt('Enter the car model')
-    date_time = click.prompt('Enter the appointment date and time (YYYY-MM-DD HH:MM)')
-    appointment_type = click.prompt('Enter the appointment type (e.g., Test Drive)')
-
+    appointment_details = (
+        click.prompt('Enter the car make'),
+        click.prompt('Enter the car model'),
+        click.prompt('Enter the appointment date and time (YYYY-MM-DD HH:MM)'),
+        click.prompt('Enter the appointment type (e.g., Test Drive)')
+    )
+    make, model, date_time, appointment_type = appointment_details
     car = session.query(Car).filter_by(make=make, model=model).first()
 
     if car is None:
@@ -113,7 +115,7 @@ def menu(username):
     if user:
         display_menu(session, user)
     else:
-        click.echo('User not found. Would you like to register? [y/N]')
+        click.echo('User not found. Would you like to register? [Y/N]')
         if click.confirm(''):
             register_user(session, username)
             user = get_user(session, username)
